@@ -1,9 +1,9 @@
-import SignUpPage from "./interfaces/pages/auth/sign_up_page";
+import MainPage from "./interfaces/pages/main_page";
 
 function App() {
   return (
     <>
-      <SignUpPage />
+      <MainPage />
     </>
   );
 }
