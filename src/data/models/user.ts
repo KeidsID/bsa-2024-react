@@ -2,5 +2,5 @@ export default interface User {
   readonly id: string;
   readonly email: string;
   readonly password: string;
-  fullName: string;
+  readonly fullName: string;
 }

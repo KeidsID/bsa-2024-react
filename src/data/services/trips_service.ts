@@ -1,4 +1,4 @@
-import tripsMock from "~/data/storage_mock/trips.json";
+import tripsMock from "~/data/server_mock/trips.json";
 
 import Trip, { tripFromRaw } from "~/data/models/trip";
 import { promiseDelayed } from "~/common/utils";
