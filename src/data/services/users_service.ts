@@ -8,7 +8,7 @@ class UsersService {
     password,
     fullname,
   }: Omit<User, "id">): Promise<User> {
-    await promiseDelayed(1000);
+    await promiseDelayed(500);
 
     if (usersAPI.getUsers().find((e) => e.email === email)) {
       throw new Error("Email already used");

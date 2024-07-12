@@ -21,7 +21,7 @@ class BookingsService {
     trip: Pick<Trip, "id" | "title" | "duration" | "price">;
     booking: Omit<Booking, "id" | "tripId" | "createdAt" | "trip">;
   }): Promise<void> {
-    await promiseDelayed(1000);
+    await promiseDelayed(500);
 
     const { id: tripId, title, duration, price } = trip;
 
@@ -41,6 +41,12 @@ class BookingsService {
     };
 
     bookingsAPI.addBooking(newBooking);
+  }
+
+  async removeBooking(id: string): Promise<void> {
+    await promiseDelayed(250);
+
+    bookingsAPI.removeBooking(id);
   }
 }
 

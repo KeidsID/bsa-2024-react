@@ -14,18 +14,18 @@ export default function BookingsPage(): JSX.Element {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchBookings = async () => {
+    const bookings = await bookingsService.getBookings();
+
+    bookingsRef.current = bookings.sort(({ date: aDate }, { date: bDate }) => {
+      return aDate.getTime() - bDate.getTime();
+    });
+  };
+
   useEffect(() => {
     document.title = "Travel App | Bookings Page";
 
-    bookingsService.getBookings().then((bookings) => {
-      bookingsRef.current = bookings.sort(
-        ({ date: aDate }, { date: bDate }) => {
-          return aDate.getTime() - bDate.getTime();
-        }
-      );
-
-      setIsLoading(false);
-    });
+    fetchBookings().then(() => setIsLoading(false));
   });
 
   return (
@@ -73,6 +73,13 @@ export default function BookingsPage(): JSX.Element {
                       data-test-id="booking-cancel"
                       className="booking__cancel"
                       title="Cancel booking"
+                      onClick={async () => {
+                        setIsLoading(true);
+                        await bookingsService.removeBooking(id);
+
+                        await fetchBookings();
+                        setIsLoading(false);
+                      }}
                     >
                       <span className="visually-hidden">Cancel booking</span>×
                     </button>

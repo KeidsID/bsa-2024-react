@@ -15,6 +15,10 @@ class BookingsAPI {
   addBooking(booking: Booking): void {
     this.#bookings.push(bookingToRaw(booking));
   }
+
+  removeBooking(id: string): void {
+    this.#bookings = this.#bookings.filter((b) => b.id !== id);
+  }
 }
 
 class TripsAPI {
