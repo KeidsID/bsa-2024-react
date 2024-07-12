@@ -1,5 +1,3 @@
-import "./_.css";
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,6 +9,7 @@ import {
   getLoggedUser,
   setLoggedUser,
 } from "~/interfaces/providers/logged_user_provider";
+import "./_.css";
 
 export default function SignUpPage(): JSX.Element {
   const [fullname, setFullname] = useState("");
