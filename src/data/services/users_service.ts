@@ -1,28 +1,27 @@
-import usersMock from "~/data/server_mock/users.json";
-
 import User from "~/data/models/user";
+import { usersAPI } from "~/data/server_mock";
 import { promiseDelayed } from "~/common/utils";
 
 class UsersService {
   async createUser({
     email,
     password,
-    fullName,
+    fullname,
   }: Omit<User, "id">): Promise<User> {
     await promiseDelayed(1000);
 
-    if (usersMock.find((e) => e.email === email)) {
+    if (usersAPI.getUsers().find((e) => e.email === email)) {
       throw new Error("Email already used");
     }
 
     const newUser: User = {
-      id: crypto.randomUUID(),
+      id: window.crypto.randomUUID(),
       email,
       password,
-      fullName,
+      fullname,
     };
 
-    usersMock.push(newUser);
+    usersAPI.addUser(newUser);
 
     return newUser;
   }
@@ -33,7 +32,7 @@ class UsersService {
   }: Pick<User, "email" | "password">): Promise<User | undefined> {
     await promiseDelayed(1000);
 
-    return usersMock.find((e) => {
+    return usersAPI.getUsers().find((e) => {
       return e.email === email && e.password === password;
     });
   }
