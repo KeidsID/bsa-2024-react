@@ -1,21 +1,50 @@
-import Trip from "~/data/models/trip";
-import TripInfo from "../trip_info";
-import "./_.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import Trip from "~/data/models/trip";
+import User from "~/data/models/user";
+import bookingsService from "~/data/services/bookings_service";
+import TripInfo from "~/interfaces/components/trip_info";
+import "./_.css";
 
 type Props = {
+  user: User;
   trip: Trip;
   onClose?: () => void;
 };
 
 export default function BookTripModal({
+  user,
   trip,
   onClose = () => {},
 }: Props): JSX.Element {
   const { title, duration, level, price } = trip;
 
+  const navigate = useNavigate();
+
   const [bookDate, setBookDate] = useState<Date | undefined>();
   const [bookGuests, setBookGuests] = useState(1);
+
+  const onSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+
+    bookingsService.addBooking({
+      trip: {
+        id: trip.id,
+        title,
+        duration,
+        price,
+      },
+      booking: {
+        userId: user.id,
+        date: bookDate!,
+        guests: bookGuests,
+        totalPrice: price * bookGuests,
+      },
+    });
+
+    navigate("/bookings");
+  };
 
   return (
     <div className="modal">
@@ -27,7 +56,11 @@ export default function BookTripModal({
         >
           ×
         </button>
-        <form className="book-trip-popup__form" autoComplete="off">
+        <form
+          className="book-trip-popup__form"
+          autoComplete="off"
+          onSubmit={onSubmit}
+        >
           <TripInfo
             title={title}
             duration={duration}

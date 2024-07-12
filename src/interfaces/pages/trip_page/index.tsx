@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import Trip from "~/data/models/trip";
 import tripsService from "~/data/services/trips_service";
+import BookTripModal from "~/interfaces/components/book_trip_modal";
 import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
 import useSimpleAuth from "~/interfaces/hooks/use_simple_auth";
@@ -10,7 +11,6 @@ import TripInfo from "~/interfaces/components/trip_info";
 import TripPrice from "~/interfaces/components/trip_price";
 import NotFoundPage from "~/interfaces/pages/not_found_page";
 import "./_.css";
-import BookTripModal from "~/interfaces/components/book_trip_modal";
 
 export default function TripPage(): JSX.Element {
   const loggedUser = useSimpleAuth();
@@ -51,7 +51,9 @@ export default function TripPage(): JSX.Element {
         <h1 className="visually-hidden">Travel App</h1>
 
         {isLoading ? (
-          <div className="loader"></div>
+          <div className="trip-loading">
+            <div className="loader"></div>
+          </div>
         ) : !tripRef.current ? (
           <NotFoundPage message="Trip not found" plain>
             <Link to="/">Back to main page</Link>
@@ -96,8 +98,9 @@ export default function TripPage(): JSX.Element {
       </main>
       <Footer />
       <div hidden={!isShowBookModal}>
-        {tripRef.current && (
+        {tripRef.current && loggedUser && (
           <BookTripModal
+            user={loggedUser}
             trip={tripRef.current}
             onClose={() => setIsShowBookModal(false)}
           />

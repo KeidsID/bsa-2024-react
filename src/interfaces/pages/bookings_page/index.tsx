@@ -18,7 +18,11 @@ export default function BookingsPage(): JSX.Element {
     document.title = "Travel App | Bookings Page";
 
     bookingsService.getBookings().then((bookings) => {
-      bookingsRef.current = bookings;
+      bookingsRef.current = bookings.sort(
+        ({ date: aDate }, { date: bDate }) => {
+          return aDate.getTime() - bDate.getTime();
+        }
+      );
 
       setIsLoading(false);
     });
@@ -38,7 +42,7 @@ export default function BookingsPage(): JSX.Element {
                 const { title } = trip;
 
                 const year = date.getFullYear();
-                const month = date.getMonth();
+                const month = date.getMonth() + 1;
                 const day = date.getDate();
 
                 const formattedMonth =

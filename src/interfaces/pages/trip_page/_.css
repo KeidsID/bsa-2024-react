@@ -33,3 +33,7 @@
 .trip__button {
   max-width: 200px;
 }
+
+.trip-loading {
+  margin: auto;
+}
