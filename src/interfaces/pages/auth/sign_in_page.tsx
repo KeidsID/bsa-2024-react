@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { validatePassword } from "~/common/utils";
 import usersService from "~/data/services/users_service";
 import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
-import {
-  getLoggedUser,
-  setLoggedUser,
-} from "~/interfaces/providers/logged_user_provider";
+import useSimpleAuth from "~/interfaces/hooks/use_simple_auth";
+import { setLoggedUser } from "~/interfaces/providers/logged_user_provider";
 import "./_.css";
 
 export default function SignInPage(): JSX.Element {
@@ -47,9 +45,7 @@ export default function SignInPage(): JSX.Element {
     navigate("/");
   };
 
-  useEffect(() => {
-    if (getLoggedUser()) navigate("/");
-  });
+  useSimpleAuth({ isAuthPage: true });
 
   return (
     <>

@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { validatePassword } from "~/common/utils";
 import usersService from "~/data/services/users_service";
 import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
-import {
-  getLoggedUser,
-  setLoggedUser,
-} from "~/interfaces/providers/logged_user_provider";
+import useSimpleAuth from "~/interfaces/hooks/use_simple_auth";
+import { setLoggedUser } from "~/interfaces/providers/logged_user_provider";
 import "./_.css";
 
 export default function SignUpPage(): JSX.Element {
+  useSimpleAuth({ isAuthPage: true });
+
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,10 +50,6 @@ export default function SignUpPage(): JSX.Element {
       alert(err);
     }
   };
-
-  useEffect(() => {
-    if (getLoggedUser()) navigate("/");
-  });
 
   return (
     <>

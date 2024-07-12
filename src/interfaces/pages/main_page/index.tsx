@@ -7,14 +7,14 @@ import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
 import TripInfo from "~/interfaces/components/trip_info";
 import TripPrice from "~/interfaces/components/trip_price";
-import useLoggedUser from "~/interfaces/hooks/use_logged_user";
+import useSimpleAuth from "~/interfaces/hooks/use_simple_auth";
 import "./_.css";
 
 type DurationSelectValue = "" | "0_x_5" | "5_x_10" | "10";
 type DifficulySelectValue = "" | "easy" | "moderate" | "difficult";
 
 export default function MainPage(): JSX.Element {
-  const loggedUser = useLoggedUser();
+  const loggedUser = useSimpleAuth();
   const tripsRef = useRef<Trip[]>([]);
   const filteredTripsRef = useRef<Trip[]>([]);
 

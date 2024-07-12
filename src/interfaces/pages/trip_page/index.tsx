@@ -5,7 +5,7 @@ import Trip from "~/data/models/trip";
 import tripsService from "~/data/services/trips_service";
 import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
-import useLoggedUser from "~/interfaces/hooks/use_logged_user";
+import useSimpleAuth from "~/interfaces/hooks/use_simple_auth";
 import TripInfo from "~/interfaces/components/trip_info";
 import TripPrice from "~/interfaces/components/trip_price";
 import NotFoundPage from "~/interfaces/pages/not_found_page";
@@ -13,7 +13,7 @@ import "./_.css";
 import BookTripModal from "~/interfaces/components/book_trip_modal";
 
 export default function TripPage(): JSX.Element {
-  const loggedUser = useLoggedUser();
+  const loggedUser = useSimpleAuth();
   const { tripId } = useParams();
 
   const tripRef = useRef<Trip | undefined>();
