@@ -1,23 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Trip from "~/data/models/trip";
-import User from "~/data/models/user";
 import tripsService from "~/data/services/trips_service";
 import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
 import TripInfo from "~/interfaces/components/trip_info";
 import TripPrice from "~/interfaces/components/trip_price";
-import { getLoggedUser } from "~/interfaces/providers/logged_user_provider";
+import useLoggedUser from "~/interfaces/hooks/use_logged_user";
 import "./_.css";
 
 type DurationSelectValue = "" | "0_x_5" | "5_x_10" | "10";
 type DifficulySelectValue = "" | "easy" | "moderate" | "difficult";
 
 export default function MainPage(): JSX.Element {
-  const navigate = useNavigate();
-
-  const userRef = useRef<User | undefined>();
+  const loggedUser = useLoggedUser();
   const tripsRef = useRef<Trip[]>([]);
   const filteredTripsRef = useRef<Trip[]>([]);
 
@@ -110,15 +107,6 @@ export default function MainPage(): JSX.Element {
   useEffect(() => {
     document.title = "Trips Page";
 
-    const loggedUser = getLoggedUser();
-
-    if (!loggedUser) {
-      navigate("/sign-up");
-
-      return;
-    }
-
-    userRef.current = loggedUser;
     tripsService.getTrips().then((trips) => {
       tripsRef.current = trips;
 
@@ -128,7 +116,7 @@ export default function MainPage(): JSX.Element {
 
   return (
     <>
-      <Header user={userRef.current} />
+      <Header user={loggedUser} />
       {isLoading ? (
         <main className="main-page__loading">
           <div className="loader"></div>
@@ -189,7 +177,7 @@ export default function MainPage(): JSX.Element {
 
             <ul className="trip-list">
               {(isFiltered ? filteredTripsRef.current : tripsRef.current).map(
-                ({ title, duration, level, price, image }, index) => {
+                ({ id, title, duration, level, price, image }, index) => {
                   return (
                     <li
                       key={index}
@@ -215,13 +203,13 @@ export default function MainPage(): JSX.Element {
                           testId="trip-card-price-value"
                         />
                       </div>
-                      <a
+                      <Link
                         data-test-id="trip-card-link"
-                        href="./trip.html"
+                        to={`/trip/${id}`}
                         className="button"
                       >
                         Discover a trip
-                      </a>
+                      </Link>
                     </li>
                   );
                 }
