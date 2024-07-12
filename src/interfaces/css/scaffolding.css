@@ -26,14 +26,6 @@ html {
 
 body {
   margin: 0;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
   padding: 0;
   overflow-x: hidden;
   color: var(--color-blue-400);
@@ -43,6 +35,13 @@ body {
   line-height: 1.5;
   text-rendering: optimizespeed;
   background-color: var(--color-white);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 main {

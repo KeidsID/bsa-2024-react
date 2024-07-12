@@ -1,8 +1,10 @@
-import "./_.css";
+import { Link } from "react-router-dom";
 
 import briefcaseLogo from "~/assets/images/briefcase.svg";
 import userLogo from "~/assets/images/user.svg";
 import User from "~/data/models/user.js";
+import { clearLoggedUser } from "~/interfaces/providers/logged_user_provider";
+import "./_.css";
 
 type HeaderProps = {
   user?: User | undefined;
@@ -17,21 +19,21 @@ export default function Header({ user }: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="header__inner">
-        <a data-test-id="header-logo" href="/" className="header__logo">
+        <Link data-test-id="header-logo" to="/" className="header__logo">
           Travel App
-        </a>
+        </Link>
         {user && (
           <nav data-test-id="header-nav" className="header__nav">
             <ul className="nav-header__list">
               <li className="nav-header__item" title="Bookings">
-                <a
+                <Link
                   data-test-id="header-bookings-link"
-                  href="./bookings.html"
+                  to="/bookings"
                   className="nav-header__inner"
                 >
                   <span className="visually-hidden">Bookings</span>
                   <img src={briefcaseLogo} alt="bookings" />
-                </a>
+                </Link>
               </li>
               <li className="nav-header__item" title="Profile">
                 <div
@@ -49,16 +51,17 @@ export default function Header({ user }: HeaderProps): JSX.Element {
                       data-test-id="header-profile-nav-username"
                       className="profile-nav__item"
                     >
-                      {user.fullName}
+                      {user.fullname}
                     </li>
                     <li className="profile-nav__item">
-                      <a
+                      <Link
                         data-test-id="header-profile-nav-sign-out"
-                        href="./sign-in.html"
+                        to="/sign-up"
                         className="profile-nav__sign-out button"
+                        onClick={() => clearLoggedUser()}
                       >
                         Sign Out
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>

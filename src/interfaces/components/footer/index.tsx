@@ -1,6 +1,5 @@
-import "./_.css";
-
 import heartLogo from "~/assets/images/heart.svg";
+import "./_.css";
 
 /**
  * Common footer component on all pages.

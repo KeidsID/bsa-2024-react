@@ -1,15 +1,67 @@
 import "./_.css";
 
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { validatePassword } from "~/common/utils";
+import usersService from "~/data/services/users_service";
 import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
+import {
+  getLoggedUser,
+  setLoggedUser,
+} from "~/interfaces/providers/logged_user_provider";
 
 export default function SignUpPage(): JSX.Element {
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const validateForm = (): boolean => {
+    if (!fullname || !email || !password) return false;
+
+    const passwordValidateMsg = validatePassword(password);
+
+    if (passwordValidateMsg) {
+      alert(passwordValidateMsg);
+      return false;
+    }
+
+    return true;
+  };
+
+  const onSubmit = async (ev: React.FormEvent) => {
+    ev.preventDefault();
+
+    if (!validateForm()) return;
+
+    try {
+      const createdUser = await usersService.createUser({
+        email,
+        password,
+        fullname,
+      });
+
+      setLoggedUser(createdUser);
+
+      navigate("/");
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  useEffect(() => {
+    if (getLoggedUser()) navigate("/");
+  });
+
   return (
     <>
       <Header />
       <main className="sign-up-page">
         <h1 className="visually-hidden">Travel App</h1>
-        <form className="sign-up-form" autoComplete="off">
+        <form className="sign-up-form" autoComplete="off" onSubmit={onSubmit}>
           <h2 className="sign-up-form__title">Sign Up</h2>
           <label className="input">
             <span className="input__heading">Full name</span>
@@ -17,6 +69,8 @@ export default function SignUpPage(): JSX.Element {
               data-test-id="auth-full-name"
               name="full-name"
               type="text"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
               required
             />
           </label>
@@ -26,6 +80,8 @@ export default function SignUpPage(): JSX.Element {
               data-test-id="auth-email"
               name="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </label>
@@ -36,6 +92,8 @@ export default function SignUpPage(): JSX.Element {
               name="password"
               type="password"
               autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </label>
@@ -45,13 +103,14 @@ export default function SignUpPage(): JSX.Element {
         </form>
         <span>
           Already have an account?
-          <a
+          <span> </span>
+          <Link
             data-test-id="auth-sign-in-link"
-            href="./sign-in.html"
+            to="/sign-in"
             className="sign-up-form__link"
           >
             Sign In
-          </a>
+          </Link>
         </span>
       </main>
       <Footer />

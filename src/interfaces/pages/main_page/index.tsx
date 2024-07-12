@@ -1,39 +1,47 @@
 import "./_.css";
 
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Trip from "~/data/models/trip";
+import User from "~/data/models/user";
 import tripsService from "~/data/services/trips_service";
 import Header from "~/interfaces/components/header";
 import Footer from "~/interfaces/components/footer";
 import TripInfo from "~/interfaces/components/trip_info";
 import TripPrice from "~/interfaces/components/trip_price";
+import { getLoggedUser } from "~/interfaces/providers/logged_user_provider";
 
 export default function MainPage(): JSX.Element {
+  const userRef = useRef<User | undefined>();
   const tripsRef = useRef<Trip[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Trips Page";
 
+    const loggedUser = getLoggedUser();
+
+    if (!loggedUser) {
+      setTimeout(() => navigate("/sign-up"), 500);
+
+      return;
+    }
+
+    userRef.current = loggedUser;
     tripsService.getTrips().then((trips) => {
       tripsRef.current = trips;
 
       setIsLoading(false);
     });
-  }, []);
+  });
 
   return (
     <>
-      <Header
-        user={{
-          id: "dummy-user",
-          email: "dummy@gmail.com",
-          password: "12345678",
-          fullName: "John Doe",
-        }}
-      />
+      <Header user={userRef.current} />
       {isLoading ? (
         <main className="main-page__loading">
           <div className="loader"></div>
