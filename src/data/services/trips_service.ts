@@ -1,6 +1,6 @@
+import { promiseDelayed } from "~/common/utils";
 import Trip, { tripFromRaw } from "~/data/models/trip";
 import { tripsAPI } from "~/data/server_mock";
-import { promiseDelayed } from "~/common/utils";
 
 class TripsService {
   get #mappedRawTrips(): Trip[] {

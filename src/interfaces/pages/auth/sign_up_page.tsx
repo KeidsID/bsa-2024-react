@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { validatePassword } from "~/common/utils";
@@ -50,6 +50,10 @@ export default function SignUpPage(): JSX.Element {
       alert(err);
     }
   };
+
+  useEffect(() => {
+    document.title = "Travel App | Sign Up";
+  });
 
   return (
     <>

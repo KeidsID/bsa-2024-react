@@ -4,9 +4,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import MainPage from "./interfaces/pages/main_page";
 import SignUpPage from "./interfaces/pages/auth/sign_up_page";
 import SignInPage from "./interfaces/pages/auth/sign_in_page";
+import BookingsPage from "./interfaces/pages/bookings_page";
+import MainPage from "./interfaces/pages/main_page";
 import TripPage from "./interfaces/pages/trip_page";
 
 const router = createBrowserRouter([
@@ -23,8 +24,12 @@ const router = createBrowserRouter([
     element: <SignInPage />,
   },
   {
-    path: "trip/:tripId",
+    path: "/trip/:tripId",
     element: <TripPage />,
+  },
+  {
+    path: "/bookings",
+    element: <BookingsPage />,
   },
   {
     path: "*",

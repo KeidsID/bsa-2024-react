@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { validatePassword } from "~/common/utils";
@@ -10,6 +10,8 @@ import { setLoggedUser } from "~/interfaces/providers/logged_user_provider";
 import "./_.css";
 
 export default function SignInPage(): JSX.Element {
+  useSimpleAuth({ isAuthPage: true });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -45,7 +47,9 @@ export default function SignInPage(): JSX.Element {
     navigate("/");
   };
 
-  useSimpleAuth({ isAuthPage: true });
+  useEffect(() => {
+    document.title = "Travel App | Sign In";
+  });
 
   return (
     <>

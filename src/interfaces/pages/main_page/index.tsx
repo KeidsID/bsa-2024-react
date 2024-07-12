@@ -105,7 +105,7 @@ export default function MainPage(): JSX.Element {
   };
 
   useEffect(() => {
-    document.title = "Trips Page";
+    document.title = "Travel App";
 
     tripsService.getTrips().then((trips) => {
       tripsRef.current = trips;

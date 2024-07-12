@@ -1,6 +1,6 @@
+import { promiseDelayed } from "~/common/utils";
 import User from "~/data/models/user";
 import { usersAPI } from "~/data/server_mock";
-import { promiseDelayed } from "~/common/utils";
 
 class UsersService {
   async createUser({

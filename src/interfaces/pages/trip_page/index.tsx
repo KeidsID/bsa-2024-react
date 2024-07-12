@@ -22,7 +22,7 @@ export default function TripPage(): JSX.Element {
   const [isShowBookModal, setIsShowBookModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Trip Detail Page";
+    document.title = "Travel App | Trip Details";
 
     if (!tripId) {
       setIsLoading(false);
